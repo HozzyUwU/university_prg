@@ -5,19 +5,19 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
 
-    public Transform target;
+    private GameObject target;
 
-    public Vector3 offset; //4.5
-    public bool useOffsetValues;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Vector3 offset; //4.5
+    [SerializeField] private bool useOffsetValues;
+
+    private void Awake()
     {
-        
+        target = GameObject.Find("Player");
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        transform.position = target.position - offset;
+        transform.position = target.transform.position - offset;
     }
 }
