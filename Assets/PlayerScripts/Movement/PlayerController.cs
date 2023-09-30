@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +12,11 @@ public class PlayerController : MonoBehaviour
     [Space]
     [SerializeField] private byte _swipeThreshold;
 
+    public delegate void OnSwipeDetection(InputAction.CallbackContext context);
+    public event OnSwipeDetection SwipeUpDetected;
+    public event OnSwipeDetection SwipeDownDetected;
+    public delegate void OnJumpStart(InputAction.CallbackContext context);
+    public event OnJumpStart JumpInitiated;
     private void Awake() 
     {
         // Instantiating input system object
@@ -34,23 +37,36 @@ public class PlayerController : MonoBehaviour
         
         if(delta.magnitude < _swipeThreshold)
         {
-            ProduceJump(delta.magnitude);
+            ProduceJump(/*delta.magnitude*/ context);
             return;
         }
 
-        if(Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
-        {
-            Debug.Log("Horizontal Swipe");
-        }else
+        //if(Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
+        //{
+        //    Debug.Log("Horizontal Swipe");
+        //}
+
+        if(Mathf.Abs(delta.x) < Mathf.Abs(delta.y))
         {
             Debug.Log("Vertical Swipe");
+            if (delta.y > 0)
+            {
+                Debug.Log("Swipe Up" + delta.y + " " + _startedPosition.y);
+                if (SwipeUpDetected != null) SwipeUpDetected(context);
+            }
+            else
+            {
+                Debug.Log("Swipe Down" + delta.y + " " + _startedPosition.y);
+                if (SwipeDownDetected != null) SwipeDownDetected(context);
+            }
         }
 
     }
 
-    private void ProduceJump(float magnitude)
+    private void ProduceJump(/*float magnitude*/ InputAction.CallbackContext context)
     {
-        Debug.Log($"Jump was performed with magnitude: {magnitude}");
+        //Debug.Log($"Jump was performed with magnitude: {magnitude}");
+        if (JumpInitiated != null) JumpInitiated(context);
     }
 }
 
