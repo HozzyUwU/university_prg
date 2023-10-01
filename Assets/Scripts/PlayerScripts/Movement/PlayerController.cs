@@ -37,14 +37,9 @@ public class PlayerController : MonoBehaviour
         
         if(delta.magnitude < _swipeThreshold)
         {
-            ProduceJump(/*delta.magnitude*/ context);
+            ProduceJump(context);
             return;
         }
-
-        //if(Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
-        //{
-        //    Debug.Log("Horizontal Swipe");
-        //}
 
         if(Mathf.Abs(delta.x) < Mathf.Abs(delta.y))
         {
@@ -63,9 +58,8 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void ProduceJump(/*float magnitude*/ InputAction.CallbackContext context)
+    private void ProduceJump(InputAction.CallbackContext context)
     {
-        //Debug.Log($"Jump was performed with magnitude: {magnitude}");
         if (JumpInitiated != null) JumpInitiated(context);
     }
 }

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -8,11 +7,11 @@ public class PlayerControl : MonoBehaviour
     private CharacterController _controller;
     private PlayerController _playerController;
 
-    [SerializeField] private float jumpVelocity;
-    [SerializeField] private float gravityScale;
-    [SerializeField] private float runningSpeed;
+    [SerializeField] private float _jumpVelocity;
+    [SerializeField] private float _gravityScale;
+    [SerializeField] private float _runningSpeed;
 
-    private Vector3 moveDirection;
+    private Vector3 _moveDirection;
 
 
     private void Awake()
@@ -20,8 +19,8 @@ public class PlayerControl : MonoBehaviour
         
         _playerController = GetComponent<PlayerController>();
         _controller = GetComponent<CharacterController>();
-        jumpVelocity = 8f;
-        gravityScale = 2f;
+        _jumpVelocity = 8f;
+        _gravityScale = 2f;
     }
     private void OnEnable()
     {
@@ -41,14 +40,14 @@ public class PlayerControl : MonoBehaviour
     {
         if(_controller.isGrounded)
         {
-            moveDirection.y = jumpVelocity;
+            _moveDirection.y = _jumpVelocity;
         }
     }
 
     private void ChangePlatformUp(InputAction.CallbackContext context)
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector2.up, out hit))
+        if (Physics.Raycast(transform.position, Vector2.up, out hit, 5))
         {
             Teleport(new Vector3(transform.position.x, hit.point.y + 1f, transform.position.z));
         }
@@ -65,20 +64,18 @@ public class PlayerControl : MonoBehaviour
         {
             Teleport(new Vector3(transform.position.x, hit[1].point.y + 1f, transform.position.z));
         }
-        //Debug.Log("Event 0 is triggered " + hit[0].collider + " " + hit[1].collider);
     }
 
     private void Teleport(Vector3 _position)
     {
-        _controller.enabled = false;
         _controller.transform.position = _position;
-        _controller.enabled = true;
     }
-    
+
     void Update()
-    {   
-        moveDirection = new Vector3(runningSpeed, moveDirection.y, 0f);
-        moveDirection.y += Physics.gravity.y * gravityScale * Time.deltaTime;
-        _controller.Move(moveDirection * Time.deltaTime);
+    {
+        _moveDirection = new Vector3(_runningSpeed, _moveDirection.y, 0f);
+        _moveDirection.y += Physics.gravity.y * _gravityScale * Time.deltaTime;
+        Physics.SyncTransforms();
+        _controller.Move(_moveDirection * Time.deltaTime);
     }
 }
