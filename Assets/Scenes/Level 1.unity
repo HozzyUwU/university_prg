@@ -2199,11 +2199,10 @@ GameObject:
   - component: {fileID: 1390124949}
   - component: {fileID: 1390124948}
   - component: {fileID: 1390124947}
-  - component: {fileID: 1390124945}
+  - component: {fileID: 1390124954}
   - component: {fileID: 1390124957}
   - component: {fileID: 1390124951}
   - component: {fileID: 1390124953}
-  - component: {fileID: 1390124954}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2211,21 +2210,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1390124945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1390124944}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4dce946df129204b8dc838d64566dc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpVelocity: 5
-  gravityScale: 2
-  runningSpeed: 5
 --- !u!136 &1390124947
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2384,6 +2368,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _swipeThreshold: 50
+  _jumpVelocity: 8
+  _gravityScale: 2
+  _runningSpeed: 5
 --- !u!114 &1390124957
 MonoBehaviour:
   m_ObjectHideFlags: 0

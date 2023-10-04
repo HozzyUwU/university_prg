@@ -8,6 +8,9 @@ public class PlayerLife : MonoBehaviour
     private Transform _player;
 
     private Vector3 _spawnPoint;
+
+    public delegate void PlayerIsDead();
+    public event PlayerIsDead playerDead;
     
     private void Awake()
     {
@@ -25,18 +28,19 @@ public class PlayerLife : MonoBehaviour
         else if (other.CompareTag("NextLevel"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            _spawnPoint = _player.transform.position;
+            Die();
         }
         else if (other.CompareTag("PrevLevel"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-            _spawnPoint = _player.transform.position;
+            Die();
         }
     }
     
-    private void Die()
+    public void Die()
     {
         _player.transform.position = _spawnPoint;
+        playerDead?.Invoke();
     }
 
     void Update()
