@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake() 
     {
+        DontDestroyOnLoad(this);
         _jumpVelocity = 8f;
         _gravityScale = 2f;
         // Instantiating input system object

@@ -9,7 +9,10 @@ public class CameraMovement : MonoBehaviour
 
     [SerializeField] private Vector3 offset; //4.5
     [SerializeField] private bool useOffsetValues;
-
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
     // Update is called once per frame
     void LateUpdate()
     {
