@@ -1,22 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObstacleCollision : MonoBehaviour
 {
-
-    private PlayerLife _player;
+    private float _obstacleStrength;
     // Start is called before the first frame update
     void Awake()
     {
-        _player = GetComponent<PlayerLife>();
+        _obstacleStrength = 50.0f;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            //_player.Die();
+            other.gameObject.GetComponent<PlayerLife>().TakeDamage(_obstacleStrength);
             Debug.Log("EMOTIONAL DAMAGE");
         }
     }
