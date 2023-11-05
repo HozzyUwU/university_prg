@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _currentPosition = Vector2.zero;
     private Vector3 _moveDirection;
 
-    public bool _isInCombat;
+    private bool _isInCombat;
     #endregion
 
     #region Properties
@@ -57,6 +57,14 @@ public class PlayerController : MonoBehaviour
         touchInteraction.TouchPress.canceled += SwipeDetection;
     }
 
+    public bool CombatStatus
+    {
+        get{return _isInCombat;}
+        set
+        {
+            _isInCombat = value;
+        }
+    }
     private void SwipeDetection(InputAction.CallbackContext context)
     {
         Vector2 delta = _currentPosition - _startedPosition;
@@ -67,7 +75,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(Mathf.Abs(delta.x) < Mathf.Abs(delta.y))
+        if((Mathf.Abs(delta.x) < Mathf.Abs(delta.y)) && (_controller.isGrounded) && (!_isInCombat))
         {
             Debug.Log("Vertical Swipe");
             if (delta.y > 0)
@@ -85,7 +93,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Swipe Down" + delta.y + " " + _startedPosition.y);
                 //if (SwipeDownDetected != null) SwipeDownDetected(context);
                 RaycastHit hit;
-                if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z), Vector2.down, out hit, 5))
+                if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z), Vector2.down, out hit, 7))
                 {
                     Teleport(new Vector3(transform.position.x, hit.point.y + 1f, transform.position.z));
                 }
@@ -102,7 +110,7 @@ public class PlayerController : MonoBehaviour
     private void ProduceJump(/*InputAction.CallbackContext context*/)
     {
         //if (JumpInitiated != null) JumpInitiated(context);
-        if (_controller.isGrounded)
+        if (_controller.isGrounded && !_isInCombat)
         {
             _moveDirection.y = _jumpVelocity;
         }
@@ -116,6 +124,10 @@ public class PlayerController : MonoBehaviour
             _moveDirection.y += Physics.gravity.y * _gravityScale * Time.deltaTime;
             Physics.SyncTransforms();
             _controller.Move(_moveDirection * Time.deltaTime);
+        }
+        else
+        {
+            _moveDirection.y = 0.0f;
         }
     }
 }

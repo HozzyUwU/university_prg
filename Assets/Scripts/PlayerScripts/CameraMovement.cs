@@ -20,15 +20,15 @@ public class CameraMovement : MonoBehaviour
             Debug.Log("AM DUBM");
         }
         transform.position = new Vector3(_target.transform.position.x - _offset.x, _target.transform.position.y - _offset.y, _target.transform.position.z - _offset.z);
-        _lowLevelCamera = transform.position.y;
-        _highLevelCamera = _lowLevelCamera + 3.92f;
+        _lowLevelCamera = transform.position.y + 4.6f;
+        _highLevelCamera = _lowLevelCamera + 5.5f/*3.92f*/;
     }
     // Update is called once per frame
     void LateUpdate()
     {
         //transform.position = target.transform.position - offset;
         //transform.position = new Vector3(_target.transform.position.x - _offset.x, _controller.transform.position.y, _target.transform.position.z - _offset.z);//target.transform.position - offset;
-        if(_target.transform.position.y > 9.0f)
+        if(_target.transform.position.y > 7.8f)
         {
             transform.position = new Vector3(_target.transform.position.x - _offset.x, _highLevelCamera, _target.transform.position.z - _offset.z);
         }

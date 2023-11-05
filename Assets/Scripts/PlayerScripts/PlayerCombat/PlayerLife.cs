@@ -32,7 +32,7 @@ public class PlayerLife : Stats
         }
     }
 
-    public void Die()
+    public override void Die()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         //_player.transform.position = _spawnPoint;
@@ -44,10 +44,6 @@ public class PlayerLife : Stats
     {
        // Debug.Log("Player health: " + _health);
         if (_player.position.y < _treshhold)
-        {
-            Die();
-        }
-        if (_health <= 0)
         {
             Die();
         }
