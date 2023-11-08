@@ -1,3 +1,5 @@
+using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -32,15 +34,16 @@ public class PlayerController : MonoBehaviour
 
     private void Start() 
     {
+        _controller = null;
         if(GameObject.FindGameObjectWithTag("Player") != null)
         {
-            _controller = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
+            GameObject.FindGameObjectWithTag("Player").TryGetComponent<CharacterController>(out _controller);
         }
         else{
             Debug.Log("GO FUCK URSELF");
         }
         _isInCombat = false;
-        // /DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
         _jumpVelocity = 8f;
         _gravityScale = 2f;
         // Instantiating input system object
@@ -67,6 +70,14 @@ public class PlayerController : MonoBehaviour
     }
     private void SwipeDetection(InputAction.CallbackContext context)
     {
+        // if(_controller == null)
+        // {
+        //     Debug.Log("ABOABOAOBOABOABOAOBOAB" + Time.frameCount);
+        // }
+        // else{
+        //     Debug.Log("PENISSPEIPESPIESSEPIS" + Time.frameCount);
+        // }
+
         Vector2 delta = _currentPosition - _startedPosition;
         
         if(delta.magnitude < _swipeThreshold)
@@ -107,13 +118,13 @@ public class PlayerController : MonoBehaviour
         _controller.transform.position = _position;
     }
 
-    private void ProduceJump(/*InputAction.CallbackContext context*/)
+    private void ProduceJump()
     {
-        //if (JumpInitiated != null) JumpInitiated(context);
-        if (_controller.isGrounded && !_isInCombat)
-        {
+    //if (JumpInitiated != null) JumpInitiated(context);
+       if (_controller.isGrounded && !_isInCombat)
+       {
             _moveDirection.y = _jumpVelocity;
-        }
+       }
     }
 
     private void Update()

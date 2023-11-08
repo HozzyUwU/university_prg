@@ -15,6 +15,6 @@ public class EnemyLife : Stats
     public override void Die()
     {
         Debug.Log("Enemy is dead!");
-        Destroy(this);
+        Destroy(gameObject);
     }
 }
