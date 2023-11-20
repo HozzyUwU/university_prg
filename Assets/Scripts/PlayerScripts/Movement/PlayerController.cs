@@ -1,3 +1,5 @@
+using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +16,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 _startedPosition = Vector2.zero;
     private Vector2 _currentPosition = Vector2.zero;
     private Vector3 _moveDirection;
+
+    private bool _isInCombat;
     #endregion
 
     #region Properties
@@ -28,15 +32,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _runningSpeed;
     #endregion
 
-    private void Awake() 
+    private void Start() 
     {
+        _controller = null;
+        if(GameObject.FindGameObjectWithTag("Player") != null)
+        {
+            GameObject.FindGameObjectWithTag("Player").TryGetComponent<CharacterController>(out _controller);
+        }
+        else{
+            Debug.Log("GO FUCK URSELF");
+        }
+        _isInCombat = false;
+        //DontDestroyOnLoad(this);
         _jumpVelocity = 8f;
         _gravityScale = 2f;
         // Instantiating input system object
         _playerInputController = new TouchControlls();
 
         //Instantiating player controll object
-        _controller = GetComponent<CharacterController>();
+        //_controller = GetComponent<CharacterController>();
         // Better enabling input actions in action map
         var touchInteraction = _playerInputController.TouchInteraction;
         touchInteraction.Enable();    
@@ -46,17 +60,33 @@ public class PlayerController : MonoBehaviour
         touchInteraction.TouchPress.canceled += SwipeDetection;
     }
 
+    public bool CombatStatus
+    {
+        get{return _isInCombat;}
+        set
+        {
+            _isInCombat = value;
+        }
+    }
     private void SwipeDetection(InputAction.CallbackContext context)
     {
+        // if(_controller == null)
+        // {
+        //     Debug.Log("ABOABOAOBOABOABOAOBOAB" + Time.frameCount);
+        // }
+        // else{
+        //     Debug.Log("PENISSPEIPESPIESSEPIS" + Time.frameCount);
+        // }
+
         Vector2 delta = _currentPosition - _startedPosition;
         
         if(delta.magnitude < _swipeThreshold)
         {
-            ProduceJump(context);
+            ProduceJump();
             return;
         }
 
-        if(Mathf.Abs(delta.x) < Mathf.Abs(delta.y))
+        if((Mathf.Abs(delta.x) < Mathf.Abs(delta.y)) && (_controller.isGrounded) && (!_isInCombat))
         {
             Debug.Log("Vertical Swipe");
             if (delta.y > 0)
@@ -74,7 +104,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Swipe Down" + delta.y + " " + _startedPosition.y);
                 //if (SwipeDownDetected != null) SwipeDownDetected(context);
                 RaycastHit hit;
-                if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z), Vector2.down, out hit, 5))
+                if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z), Vector2.down, out hit, 7))
                 {
                     Teleport(new Vector3(transform.position.x, hit.point.y + 1f, transform.position.z));
                 }
@@ -88,21 +118,28 @@ public class PlayerController : MonoBehaviour
         _controller.transform.position = _position;
     }
 
-    private void ProduceJump(InputAction.CallbackContext context)
+    private void ProduceJump()
     {
-        //if (JumpInitiated != null) JumpInitiated(context);
-        if (_controller.isGrounded)
-        {
+    //if (JumpInitiated != null) JumpInitiated(context);
+       if (_controller.isGrounded && !_isInCombat)
+       {
             _moveDirection.y = _jumpVelocity;
-        }
+       }
     }
 
     private void Update()
     {
-        _moveDirection = new Vector3(_runningSpeed, _moveDirection.y, 0f);
-        _moveDirection.y += Physics.gravity.y * _gravityScale * Time.deltaTime;
-        Physics.SyncTransforms();
-        _controller.Move(_moveDirection * Time.deltaTime);
+        if(!_isInCombat)
+        {
+            _moveDirection = new Vector3(_runningSpeed, _moveDirection.y, 0f);
+            _moveDirection.y += Physics.gravity.y * _gravityScale * Time.deltaTime;
+            Physics.SyncTransforms();
+            _controller.Move(_moveDirection * Time.deltaTime);
+        }
+        else
+        {
+            _moveDirection.y = 0.0f;
+        }
     }
 }
 
