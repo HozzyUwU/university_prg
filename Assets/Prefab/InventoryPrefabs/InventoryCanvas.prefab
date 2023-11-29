@@ -7596,6 +7596,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2489175001238519039}
     m_Modifications:
+    - target: {fileID: 2212202323132134803, guid: c3c518629c2102046a333a9bd6401972,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212202323132134803, guid: c3c518629c2102046a333a9bd6401972,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 4438785805842007171, guid: c3c518629c2102046a333a9bd6401972,
         type: 3}
       propertyPath: m_Name
@@ -7836,6 +7846,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ItemDescriptionText
+      objectReference: {fileID: 0}
+    - target: {fileID: 6093104006838986142, guid: 46b2250ce82304a45886db22c0dca481,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6093104006838986142, guid: 46b2250ce82304a45886db22c0dca481,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -90,6 +90,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TouchHold",
+                    "type": "Button",
+                    "id": "43c5832b-177c-4490-9ea9-0b3aa8733378",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -112,6 +121,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "TouchPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1ec95435-be47-4f4d-ad46-2fdaf88df36f",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

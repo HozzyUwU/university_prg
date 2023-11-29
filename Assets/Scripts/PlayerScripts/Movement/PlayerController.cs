@@ -57,15 +57,23 @@ public class PlayerController : MonoBehaviour
 
         touchInteraction.TouchPosition.performed += ctx => { _currentPosition = touchInteraction.TouchPosition.ReadValue<Vector2>(); };
         touchInteraction.TouchPress.started += ctx => {_startedPosition = _currentPosition; };
+        touchInteraction.TouchPress.performed += WallRun;
         touchInteraction.TouchPress.canceled += SwipeDetection;
+        //touchInteraction.TouchHold.performed += WallRun;
     }
-
     public bool CombatStatus
     {
         get{return _isInCombat;}
         set
         {
             _isInCombat = value;
+        }
+    }
+    private void WallRun(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            Debug.Log("I am Wall Running Now");
         }
     }
     private void SwipeDetection(InputAction.CallbackContext context)
@@ -77,7 +85,6 @@ public class PlayerController : MonoBehaviour
         // else{
         //     Debug.Log("PENISSPEIPESPIESSEPIS" + Time.frameCount);
         // }
-
         Vector2 delta = _currentPosition - _startedPosition;
         
         if(delta.magnitude < _swipeThreshold)
