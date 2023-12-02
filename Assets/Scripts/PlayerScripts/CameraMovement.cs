@@ -28,7 +28,7 @@ public class CameraMovement : MonoBehaviour
     {
         //transform.position = target.transform.position - offset;
         //transform.position = new Vector3(_target.transform.position.x - _offset.x, _controller.transform.position.y, _target.transform.position.z - _offset.z);//target.transform.position - offset;
-        if(_target.transform.position.y > 7.8f)
+        if(_target.transform.position.y > 8.5f)
         {
             transform.position = new Vector3(_target.transform.position.x - _offset.x, _highLevelCamera, _target.transform.position.z - _offset.z);
         }

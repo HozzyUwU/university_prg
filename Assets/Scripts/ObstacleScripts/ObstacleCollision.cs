@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class ObstacleCollision : MonoBehaviour
 {
-    private float _obstacleStrength;
+    [SerializeField] private float _obstacleStrength;
     // Start is called before the first frame update
-    void Awake()
-    {
-        _obstacleStrength = 50.0f;
-    }
+    // void Awake()
+    // {
+    //     _obstacleStrength = 50.0f;
+    // }
 
     private void OnTriggerEnter(Collider other)
     {
